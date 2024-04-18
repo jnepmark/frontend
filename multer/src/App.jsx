@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ImageCard from './ImageCard'; 
 
 function App() {
   const[file, setFile] = useState();
-  const[imageUrl, setImageUrl] = useState();
+  const [imageUrls, setImageUrls] = useState([]); // Maintain array of uploaded images' URLs
 
   const upload = () => {
     if (!file || file.length === 0) {
@@ -19,11 +20,11 @@ function App() {
     axios.post("http://localhost:4000/upload", formData)
       .then(res => {
         if (res.data.status === 'success') {
-          setImageUrl(res.data.imageUrl);
-          alert("Uploaded successfully"); // Alert on successful upload
+          setImageUrls(prevState => [...prevState, res.data.imageUrl]); 
+          alert("Uploaded successfully"); 
         } else {
           console.log("Upload failed");
-          alert("Upload failed"); // Alert on failed upload
+          alert("Upload failed"); 
         }
       })
       .catch(err => console.log(err));
@@ -31,18 +32,19 @@ function App() {
 
   return (
      <div>
-       <form action="/upload" method="post" encType="multipart/form-data">
+       <form action="/upload" accept="image/*" method="post" encType="multipart/form-data">
          <div>
            <label>Select your cat pictures:</label>
            <input multiple="multiple" name="cat_pics" type="file" onChange={(e) => setFile(e.target.files)} />
-           {/* Call `upload` function on button click */}
+           {}
            <button type="button" onClick={upload}>Upload Cat Pics</button>
          </div>
        </form>
 
        {}
-       {imageUrl &&
-        	<img src={imageUrl} alt="uploaded"/>}
+       {imageUrls.map((url, index) =>
+         <ImageCard key={index} imageUrl={url} />
+       )}
      </div>
    );
 }
