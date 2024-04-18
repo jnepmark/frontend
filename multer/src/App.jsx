@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  const [file, setFile] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const[file, setFile] = useState();
+  const[imageUrl, setImageUrl] = useState();
 
   const upload = () => {
     if (!file || file.length === 0) {
@@ -18,10 +18,10 @@ function App() {
 
     axios.post("http://localhost:4000/upload", formData)
       .then(res => {
-        if (res.data.status === 'success') { 
+        if (res.data.status === 'success') {
           setImageUrl(res.data.imageUrl);
           alert("Uploaded successfully"); // Alert on successful upload
-        } else { 
+        } else {
           console.log("Upload failed");
           alert("Upload failed"); // Alert on failed upload
         }
@@ -40,9 +40,10 @@ function App() {
          </div>
        </form>
 
-       {imageUrl && 
-        	<img src={`http://localhost:4000/${imageUrl}`} alt="uploaded"/>} {}
-     </div> 
+       {}
+       {imageUrl &&
+        	<img src={imageUrl} alt="uploaded"/>}
+     </div>
    );
 }
 
