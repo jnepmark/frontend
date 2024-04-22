@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import{ useState } from 'react';
 import axios from 'axios';
 import ImageCard from './ImageCard';
+import './App.css';
 
 function App() {
   const[file, setFile] = useState();
@@ -31,20 +32,22 @@ function App() {
   }
 
    return (
-     <div>
+     <div className='form'>
        <form action="/upload" accept="image/*" method="post" encType="multipart/form-data">
          <div>
-           <label>Select your cat pictures:</label>
+           <h1 className=''>Select your cat pictures:</h1>
            <input multiple="multiple" name="cat_pics" type="file"
                   onChange={(e) => setFile(e.target.files)} />
            {}
            <button type="button" onClick={upload}>Upload Cat Pics</button>
          </div>
        </form>
-
-       {imageUrls.map((url, index) =>
-         <ImageCard key={index} imageUrl={`http://localhost:4000${url}`} />
-       )}
+      <div className='images'>
+      {imageUrls.map((url, index) =>
+              <ImageCard key={index} imageUrl={`http://localhost:4000${url}`} />
+            )}
+      </div>
+       
      </div>
    );
 }
